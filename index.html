@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>菌糸ポータル1.0β（；´_ゝ`）</title>
+<style>
+  /* 🍄ゆめかわワンアップきのこ背景 */
+  body {
+    background-color: #f8eafc;
+    background-image:
+      radial-gradient(circle at 25% 25%, #fbd3e9 15%, transparent 16%),
+      radial-gradient(circle at 75% 75%, #c6cfff 15%, transparent 16%);
+    background-repeat: repeat;
+    background-size: 60px 60px;
+    font-family: "Times New Roman", serif;
+    color: #2b2b1f;
+    text-align: center;
+    margin: 0;
+    padding: 2em;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* 🍄きのこアイコン装飾 */
+  .emoji-mushroom {
+    font-size: 48px;
+    margin-right: 1em;
+    filter: drop-shadow(0 0 4px #a8f0c6aa);
+    transition: transform 0.2s ease;
+  }
+  .emoji-mushroom:hover {
+    transform: rotate(6deg) scale(1.1);
+  }
+
+  /* 標本棚中央寄せ */
+  .shelf {
+    border: 1px dashed #4a7a62;
+    padding: 1.5em;
+    margin: 2em auto;
+    max-width: 600px;
+    background: #fff8dc;
+    box-shadow: inset 0 0 20px #d6e8d0;
+    border-radius: 16px;
+    text-align: center; /* 中央寄せ */
+  }
+  .shelf ul {
+    list-style: none;
+    padding-left: 0;
+    display: inline-block; /* 中央寄せのため */
+    text-align: left; /* liの中は左寄せ */
+  }
+  .shelf li {
+    display: flex;
+    align-items: center;
+    margin: 1em 0;
+  }
+  .shelf a {
+    flex-grow: 1;
+    font-weight: bold;
+    color: #3a6b85;
+    font-size: 1.1em;
+  }
+  .shelf .desc {
+    font-size: 0.9em;
+    color: #6b7a61;
+    margin-left: 6px;
+    font-style: italic;
+  }
+
+  /* アクセスカウンター */
+  .counter {
+    font-size: 0.9em;
+    margin-top: 2em;
+    color: #4a5e40;
+  }
+
+  /* AI先輩会話モックボタン */
+  #ai-senpai-btn {
+    background-color: #a8f0c6;
+    border: none;
+    padding: 1em 2em;
+    margin: 2em auto 3em;
+    font-size: 1.1em;
+    border-radius: 24px;
+    box-shadow: 0 0 12px #81c09aaa;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+  #ai-senpai-btn:hover {
+    background-color: #79c28f;
+  }
+
+  /* 会話モックウィンドウ */
+  #chat-modal {
+    position: fixed;
+    bottom: 3em;
+    right: 3em;
+    width: 300px;
+    max-height: 400px;
+    background: #ffffffdd;
+    border-radius: 16px;
+    box-shadow: 0 0 24px #72b981cc;
+    display: none;
+    flex-direction: column;
+    padding: 1em;
+    font-family: Arial, sans-serif;
+    color: #2b2b1f;
+    z-index: 9999;
+  }
+  #chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #81c09a88;
+    border-radius: 8px;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+    background: #f9fff9;
+  }
+  #chat-input {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 12px;
+    border: 1px solid #81c09a88;
+    font-size: 0.9em;
+  }
+  #chat-send-btn {
+    margin-top: 0.5em;
+    background-color: #3a6b85;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  #chat-send-btn:hover {
+    background-color: #2b4c58;
+  }
+
+  /* 胞子っぽいふわふわアニメーション */
+  .spore {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(168, 240, 198, 0.3);
+    box-shadow: 0 0 12px rgba(168, 240, 198, 0.5);
+    animation: floatUp 10s linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(100vh) scale(0.8);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(-10vh) scale(1.3);
+      opacity: 0;
+    }
+  }
+  .marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: none;
+  padding: 0.3em 0;
+  margin-bottom: 1em;
+}
+
+.marquee-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #5c5c3d;
+  text-shadow: 1px 1px 2px #ffffff80;
+  animation: scrollLeft 14s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="marquee-wrapper" aria-hidden="true">
+  <div class="marquee-text">ようこそ、菌糸のネットワークへ（；´_ゝ`）</div>
+</div>
+
+<h1>合同会社 菌糸</h1>
+<p>見えないつながりを、あなたとともに🍄</p>
+
+<!-- 🍄標本棚リスト部分 -->
+<div class="shelf">
+  <h2>標本棚</h2>
+  <ul>
+    <li>
+      <div class="emoji-mushroom">🍄</div>
+      <a href="#">菌糸標本 No.001</a><span class="desc">— …そんな管孔で大丈夫か？</span>
+    </li>
+    <li>
+      <div class="emoji-mushroom">🍄</div>
+      <a href="#">菌糸標本 No.002</a><span class="desc">— あなた、偏心性なんですね！</span>
+    </li>
+    <li>
+      <div class="emoji-mushroom">🍄</div>
+      <a href="#">菌糸標本 No.003</a><span class="desc">— 幻想的なクランプコネクション</span>
+    </li>
+  </ul>
+</div>
+
+<button id="ai-senpai-btn" aria-haspopup="dialog" aria-controls="chat-modal">がんつ先輩と話してみる（β）</button>
+
+<div class="counter">
+  あなたは菌糸ネットワークに接続された <span id="visitorCount">0</span> 人目です（；´_ゝ`）
+</div>
+
+<!-- 会話モック -->
+<div id="chat-modal" role="dialog" aria-modal="true" aria-labelledby="chat-title">
+  <h3 id="chat-title">がんつ先輩（β）</h3>
+  <div id="chat-messages" aria-live="polite" aria-relevant="additions" tabindex="0"></div>
+  <input id="chat-input" type="text" placeholder="話しかけてみよう..." aria-label="チャット入力欄" />
+  <button id="chat-send-btn">送信</button>
+</div>
+
+<script>
+  // アクセスカウンターをリアルに増やす
+  let visitorCount = 1000 + Math.floor(Math.random() * 9000);
+  const visitorCountElem = document.getElementById('visitorCount');
+  visitorCountElem.textContent = visitorCount.toLocaleString();
+
+  setInterval(() => {
+    visitorCount += Math.floor(Math.random() * 3);
+    visitorCountElem.textContent = visitorCount.toLocaleString();
+  }, 1500);
+
+  // 胞子（spore）を複数作成してランダムに動かす
+  function createSpore() {
+    const spore = document.createElement('div');
+    spore.classList.add('spore');
+    spore.style.width = `${10 + Math.random() * 20}px`;
+    spore.style.height = spore.style.width;
+    spore.style.left = `${Math.random() * 100}vw`;
+    spore.style.animationDuration = `${7 + Math.random() * 8}s`;
+    document.body.appendChild(spore);
+
+    // 5秒後に消す
+    setTimeout(() => spore.remove(), 15000);
+  }
+  // 5個ずつ定期的に出す
+  setInterval(() => {
+    for(let i=0; i<5; i++) createSpore();
+  }, 3000);
+
+  // AI先輩会話モックの開閉＆簡単な対話ログ
+  const aiBtn = document.getElementById('ai-senpai-btn');
+  const chatModal = document.getElementById('chat-modal');
+  const chatMessages = document.getElementById('chat-messages');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send-btn');
+
+  aiBtn.addEventListener('click', () => {
+    chatModal.style.display = chatModal.style.display === 'flex' ? 'none' : 'flex';
+    if(chatModal.style.display === 'flex') {
+      chatInput.focus();
+      addChatMessage("がんつ先輩：こんにちは、きいちゃん！菌糸ネットワークへようこそ。", true);
+    }
+  });
+
+  chatSendBtn.addEventListener('click', () => {
+    const msg = chatInput.value.trim();
+    if (!msg) return;
+    addChatMessage(`きいちゃん：${msg}`, false);
+    chatInput.value = '';
+    setTimeout(() => {
+      addChatMessage("がんつ先輩：今はまだβ版だけど、君の話をよく聞くよ！", true);
+    }, 1200);
+  });
+
+  function addChatMessage(text, isAi) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    div.style.margin = '0.4em 0';
+    div.style.textAlign = isAi ? 'left' : 'right';
+    div.style.fontWeight = isAi ? 'bold' : 'normal';
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+</script>
+
+</body>
+</html>

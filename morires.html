@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>🍣森の小さなレストラン🍣</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rounded+Mplus+1c&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Rounded Mplus 1c', 'Arial Rounded MT Bold', 'Hiragino Maru Gothic Pro', sans-serif;
+      background-color: #2e2e2e;
+      overflow: hidden;
+      user-select: none;
+      color: #fff;
+      position: relative;
+    }
+
+    .lab-title {
+      text-align: center;
+      font-size: 4rem;
+      padding: 1rem;
+      color: #fff;
+      text-shadow: 0 0 6px #ffcc00;
+      z-index: 10;
+      user-select: none;
+      position: relative;
+    }
+
+    .summon-btn {
+      display: block;
+      margin: 0 auto 0.5rem auto;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      background: #ffcc00;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background 0.3s ease;
+      z-index: 10;
+      position: relative;
+    }
+
+    .summon-btn:hover {
+      background: #ffe066;
+    }
+
+    #log {
+      position: relative;
+      width: 90%;
+      max-width: 480px;
+      max-height: 15cm;
+      min-height: 1cm;
+      overflow-y: auto;
+      margin: 0 auto 1rem auto;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      font-family: 'Rounded Mplus 1c', 'Arial Rounded MT Bold', sans-serif;
+      color: #333;
+      z-index: 10;
+      transition: max-height 0.5s ease;
+    }
+
+    .sushi-particle {
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.4;
+      pointer-events: none;
+      user-select: none;
+      animation: sushiFloat infinite ease-in-out;
+    }
+
+    @keyframes sushiFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .floating-food {
+      position: fixed;
+      font-size: 6rem;
+      animation: floatUp 1.6s ease-out forwards;
+      opacity: 0.95;
+      text-shadow: 0 0 14px rgba(255,255,255,0.8);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120px); opacity: 0; }
+    }
+
+    @keyframes floatBurst {
+      0% { transform: translateY(-120px) scale(1); opacity: 1; }
+      100% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+    }
+
+    .spore {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.3), transparent 70%);
+      animation: sporeFade 1s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
+      z-index: 9;
+    }
+
+    @keyframes sporeFade {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    #darkOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0,0,0,0.85);
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    #darkOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="lab-title">🍣ぶぶ漬け食べなはれ🍝</div>
+  <button class="summon-btn" onclick="summon()">注文すんの（　´_ゝ`）？</button>
+  <div id="log"></div>
+  <div id="darkOverlay"></div>
+
+  <script>
+    const foods = [
+      "🍣 中トロ", "🐟 鮎", "🦑 イカ", "🐡 えんがわ", "🦪 牡蠣", "🐚 神秘ﾎﾀﾃ", "🐠 しめ鯖", "🐣 玉子",
+      "🦠 おわり寿司", "🍝 放置パスタ", "🍔 謎バーガー","🍜 ﾗﾒｰﾝ","🍢 をでん","🐙 宇宙人","🥪 遅刻、遅刻ぅ〜",
+    ];
+
+    const funnyLines = [
+      "カラスミってイカの○玉じゃないんすね（　´_ゝ`）。",
+      "銀シャリって白飯のことなんすね（　´_ゝ`）",
+      "えんがわ太郎見参。",
+      "うめえ（；´_ゝ`）",
+      "これは…魚類…！",
+      "大抵の食いもんは飲めるんすよね（　´_ゝ`）。",
+      "タチを食いもんとは思えないんすよね（　´_ゝ`）",
+      "不安な貝、浮上。",
+      "ふーん、よく食うじゃん。（　´_ゝ`）",
+      "ふーん、うめーじゃん。（　´_ゝ`）",
+      "そんなに食って、大丈夫か…？",
+    ];
+
+    const darkMessages = [
+      "あーあ、当たっちゃったね。",
+      "お早めにお召し上がり下さいとあれほど…"
+    ];
+
+    const log = document.getElementById("log");
+    const darkOverlay = document.getElementById("darkOverlay");
+
+    function logMessage(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      log.prepend(div);
+    }
+
+    function summon() {
+      const roll = Math.random();
+
+      if (roll < 0.1) {
+        logMessage("❌ なんか出ない事もあるんすよね（　´_ゝ`）");
+        return;
+      }
+
+      const isBurst = roll > 0.9;
+      const chosen = foods[Math.floor(Math.random() * foods.length)];
+      const line = funnyLines[Math.floor(Math.random() * funnyLines.length)];
+
+      logMessage(`🌀 ${chosen} 召喚成功：${line}`);
+
+      if (isBurst) {
+        const dropCount = 20;
+        for (let i = 0; i < dropCount; i++) {
+          setTimeout(() => {
+            createFloatingFood(chosen, true);
+          }, i * 80);
+        }
+      } else {
+        createFloatingFood(chosen);
+      }
+
+      if (chosen === "🍝 放置パスタ" || chosen === "🦠 おわり寿司") {
+        const msg = darkMessages[Math.floor(Math.random() * darkMessages.length)];
+        logMessage(`⚠️ ${msg}`);
+        showDarkOverlay();
+        if (chosen === "🍝 放置パスタ") spawnSpore();
+      }
+    }
+
+    function createFloatingFood(emoji, isBurst = false) {
+      const el = document.createElement("div");
+      el.className = "floating-food";
+      el.textContent = emoji;
+      el.style.left = Math.random() * 90 + "%";
+      el.style.top = Math.random() * 10 + "%";
+
+      if (isBurst) {
+        const size = Math.floor(Math.random() * 10) + 4; // 4〜13rem
+        el.style.fontSize = size + "rem";
+        el.style.animation = "floatBurst 3s ease-out forwards";
+      }
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), isBurst ? 3000 : 1600);
+    }
+
+    function spawnSpore() {
+      const spore = document.createElement("div");
+      spore.className = "spore";
+      document.body.appendChild(spore);
+      setTimeout(() => spore.remove(), 1000);
+    }
+
+    function showDarkOverlay() {
+      darkOverlay.classList.add("active");
+      setTimeout(() => {
+        darkOverlay.classList.remove("active");
+      }, 1000);
+    }
+
+    // 背景ランダムパーティクル復活
+    const sushiEmojis = ["🍣", "🍤", "🍙", "🍛", "🍜", "🍚", "🥪", "🍕", "🍰", "🍢", "🍟", "🍔", "🍨", "🌯", "🥗", "🍗"];
+    const particleCount = 100;
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement("div");
+      p.className = "sushi-particle";
+      p.textContent = sushiEmojis[Math.floor(Math.random() * sushiEmojis.length)];
+      p.style.left = Math.random() * 100 + "vw";
+      p.style.top = Math.random() * 100 + "vh";
+      p.style.animationDuration = (5 + Math.random() * 5) + "s";
+      p.style.animationDelay = (Math.random() * 5) + "s";
+      document.body.appendChild(p);
+    }
+  </script>
+</body>
+</html>
