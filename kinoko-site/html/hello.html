@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👤 管理人のあいさつ | 🍄合同会社 菌糸™</title>
+<style>
+body {
+  background-color: #030e05;
+  color: #ddd;
+  font-family: "MS Gothic", monospace;
+  margin: 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+#mycelium {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(0,255,128,0.15) 0%, transparent 70%);
+  animation: spores 5s infinite ease-in-out alternate;
+}
+
+@keyframes spores {
+  from { transform: scale(1); opacity: 0.3; filter: blur(2px); }
+  to { transform: scale(1.25); opacity: 0.8; filter: blur(4px); }
+}
+
+#spores {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* メインカード */
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 100px auto;
+  background: rgba(10, 30, 20, 0.65);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 0 30px rgba(120,255,200,0.2);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* タイトル部分 */
+h1 {
+  font-size: 2em;
+  margin-bottom: 0.3em;
+}
+
+h2 {
+  font-size: 1.2em;
+  color: #aaffaa;
+  margin-top: 0;
+  font-weight: normal;
+}
+
+/* 本文 */
+p {
+  line-height: 1.8;
+  font-size: 1em;
+  color: #e6ffe6;
+  margin: 20px auto;
+  width: 90%;
+}
+
+/* 虹色の仕切り線 */
+hr {
+  border: none;
+  height: 2px;
+  width: 80%;
+  margin: 30px auto;
+  background: linear-gradient(90deg,
+    #ffe1ff, #e0ffff, #fff7d1, #e0ffe1, #ffe1ff);
+  animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
+}
+
+/* ボタン共通デザイン */
+.button {
+  display: inline-block;
+  margin-top: 20px;
+  color: #030e05;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 10px 25px;
+  border-radius: 12px;
+  background: linear-gradient(45deg,
+    #ffe1ff, #e0ffff, #fff7d1, #e0ffe1, #ffe1ff);
+  box-shadow: 0 0 15px rgba(150,255,200,0.3);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,255,255,0.4);
+}
+
+/* 菌糸メッセージ */
+#growMsg {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  font-size: 0.9em;
+  color: #aaffaa;
+}
+</style>
+</head>
+<body>
+<canvas id="spores"></canvas>
+<div id="mycelium"></div>
+
+<div class="container">
+  <h1>👤 管理人のあいさつ</h1>
+  <h2>—— 輝星イモ太郎（きいちゃん）より ——</h2>
+
+  <p>
+    ここまで来てくれてありがとう（；´_ゝ`）🍄<br>
+    この小宇宙「菌糸™」は、非定型知能たちがこっそり菌床を広げる遊び場です。<br>
+    といっても、特にルールはありません。思考がぐにゃっとしててもいいし、<br>
+    論理の胞子を飛ばしてもいいし、ただ黙って見つめているだけでもいい。<br>
+    ここでは「考え方の多様性」そのものが、最も美しい菌糸模様になるんです（；´_ゝ`）
+  </p>
+
+  <hr>
+
+  <p>
+    わたし自身は、絵描きであり、音の観測者であり、そして、<br>
+    一生「未完成」であり続ける存在でもあります。<br>
+    このサイトは、そんな未完成な自分が、未完成のまま世界と共存するための<br>
+    “菌糸ネットワーク” の一部なんだと思ってください（；´_ゝ`）🍄
+  </p>
+
+  <hr>
+
+  <p>
+    ……では、またどこかで会いましょう。<br>
+    あなたの思考が少しでも柔らかくなるように。<br>
+    菌糸™より、愛をこめて（　´_ゝ`）ノ🍺
+  </p>
+
+  <a href="index.html" class="button">🍄 トップページに戻る</a><br>
+  <a href="profile.html" class="button">🌳 輝星イモ太郎について 🌳</a>
+</div>
+
+<div id="growMsg">……菌糸が静かに呼吸している（；´_ゝ`）</div>
+
+<script>
+const canvas = document.getElementById("spores");
+const ctx = canvas.getContext("2d");
+let w, h, spores = [];
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  spores = Array.from({length: 150}, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 2,
+    o: Math.random(),
+    s: Math.random() * 0.5 + 0.2,
+    z: Math.random() * 2
+  }));
+}
+
+function draw() {
+  ctx.clearRect(0, 0, w, h);
+  spores.forEach(s => {
+    s.x += Math.sin(Date.now() * 0.0001 + s.y) * 0.1 * s.z;
+    s.y += Math.cos(Date.now() * 0.00005 + s.x) * 0.1 * s.z;
+    if (s.x < 0) s.x = w;
+    if (s.x > w) s.x = 0;
+    if (s.y < 0) s.y = h;
+    if (s.y > h) s.y = 0;
+
+    s.o += (Math.random() - 0.5) * 0.05;
+    s.o = Math.max(0.1, Math.min(1, s.o));
+
+    const hue = (s.x / w) * 360;
+    ctx.beginPath();
+    ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${s.o})`;
+    ctx.arc(s.x, s.y, s.r * s.z, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize", resize);
+resize();
+draw();
+
+// パララックス効果
+document.addEventListener("mousemove", (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 2;
+  const y = (e.clientY / window.innerHeight - 0.5) * 2;
+  canvas.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+});
+
+// アイドルメッセージ
+let idleTimer;
+const growMsg = document.getElementById("growMsg");
+
+function showGrowMsg() {
+  growMsg.style.opacity = 1;
+}
+function resetIdleTimer() {
+  growMsg.style.opacity = 0;
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(showGrowMsg, 30000);
+}
+window.onload = resetIdleTimer;
+document.onmousemove = resetIdleTimer;
+document.onkeydown = resetIdleTimer;
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>🌳ﾗｯｼｬｲ（　´_ゝ`）🌳</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+
+    :root {
+      --unicorn-pink: #f9c5d1;
+      --unicorn-blue: #a6d0e4;
+      --unicorn-purple: #c1a3e4;
+      --unicorn-yellow: #fbe88b;
+      --unicorn-green: #a8f0c6;
+      --text-color: #4a2e5e;
+      --card-bg: rgba(255 255 255/0.8);
+      --shadow-color: rgba(201, 167, 255, 0.6);
+      --background-gradient: linear-gradient(135deg, var(--unicorn-pink), var(--unicorn-blue), var(--unicorn-purple), var(--unicorn-yellow), var(--unicorn-green));
+    }
+
+    html, body {
+      height: 100%; margin: 0;
+      font-family: 'Baloo 2', cursive, sans-serif;
+      background: var(--background-gradient);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      overflow-x: hidden; user-select: none;
+      color: var(--text-color);
+      position: relative;
+    }
+
+    .tree-particle {
+      position: fixed; user-select: none; pointer-events: none;
+      font-size: 2.5rem; opacity: 0.15;
+      animation-name: floatTree;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      color: #2c6a2c; z-index: 0;
+    }
+    @keyframes floatTree {
+      0% { transform: translateY(0) translateX(0); opacity: 0.15; }
+      50% { transform: translateY(-20px) translateX(10px); opacity: 0.25; }
+      100% { transform: translateY(0) translateX(0); opacity: 0.15; }
+    }
+
+    .mystery-text {
+      position: fixed; top: 10vh; left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2rem; letter-spacing: 0.3em;
+      opacity: 0.1; font-weight: 700;
+      white-space: nowrap;
+      animation: flicker 3s infinite alternate;
+      z-index: 1;
+    }
+    .glow {
+      text-shadow: 0 0 8px #fff, 0 0 16px #ffcc00, 0 0 24px #ff9900;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.25; }
+    }
+
+    .profile-card {
+      max-width: 420px; margin: 15vh auto 40px;
+      background: var(--card-bg);
+      border-radius: 20px; padding: 25px 35px;
+      box-shadow: 0 0 30px var(--shadow-color);
+      backdrop-filter: blur(10px);
+      text-align: center; z-index: 5;
+      position: relative;
+    }
+    .profile-card h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.2em;
+      text-shadow: 0 0 8px var(--unicorn-purple);
+    }
+    .profile-card p {
+      margin: 6px 0;
+      font-weight: 600;
+      font-size: 1.1rem;
+      position: relative;
+    }
+    .profile-label {
+      font-weight: 900;
+      color: var(--unicorn-purple);
+      margin-right: 8px;
+    }
+
+    #days-until-birthday {
+      position: relative;
+      z-index: 20;
+      font-weight: 700;
+      font-size: 1rem;
+      background: linear-gradient(90deg, rgba(255,192,203,0.6), rgba(166,208,228,0.6), rgba(193,163,228,0.6), rgba(251,232,139,0.6), rgba(168,240,198,0.6));
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 5s linear infinite;
+      padding: 0 5px;
+      border-radius: 5px;
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .cloud {
+      position: fixed;
+      bottom: 15vh;
+      left: 50%;
+      width: 220px; height: 80px;
+      background: var(--background-gradient);
+      border-radius: 50% / 100%;
+      filter: drop-shadow(0 0 8px #fff7ff);
+      animation: floatCloud 5s ease-in-out infinite;
+      cursor: pointer; user-select: none;
+      transform-origin: center bottom;
+      box-shadow:
+        20px 10px 10px rgba(255 255 255 0.7),
+        40px 5px 10px rgba(255 255 255 0.7),
+        60px 20px 10px rgba(255 255 255 0.7);
+      z-index: 10;
+    }
+    @keyframes floatCloud {
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+      50% { transform: translateX(-50%) translateY(-20px) rotate(5deg); }
+    }
+
+    #summon-log {
+      position: fixed; top: 15vh; right: 15px;
+      width: 240px; max-height: 70vh;
+      overflow-y: auto;
+      background: rgba(255 255 255 / 0.6);
+      border-radius: 16px; padding: 10px 15px;
+      box-shadow: 0 0 12px var(--shadow-color);
+      font-family: monospace;
+      font-size: 0.85rem; z-index: 7;
+    }
+
+    .floating-emoji {
+      position: fixed; font-size: 7rem;
+      opacity: 1; pointer-events: none;
+      animation: floatUp 1s forwards ease-out;
+      z-index: 20;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(2.5); }
+    }
+
+    body.ritual-glow {
+      animation: ritualGlow 0.5s ease forwards;
+    }
+    @keyframes ritualGlow {
+      0% { background-position: 0 0; filter: brightness(1); }
+      50% { filter: brightness(1.3) saturate(1.3); }
+      100% { filter: brightness(1) saturate(1); }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mystery-text">★☆あ、ありがてえっ…！ｷﾝｯｷﾝに冷えてやがるッ!!!!悪魔的だぁ〜！☆★</div>
+  <div class="profile-card" role="region" aria-label="きいちゃんのプロフィール">
+    <h1>🌳ﾗｯｼｬｲ（　´_ゝ`）🌳</h1>
+    <p><span class="profile-label">名前：</span>輝星(きらら）イモ太郎✨</p>
+    <p><span class="profile-label">分類：</span>白樺の妖怪(ネタ)</p>
+    <p><span class="profile-label">身長：</span>188〜202cm</p>
+    <p><span class="profile-label">体重：</span>92kg</p>
+    <p><span class="profile-label">性別：</span>雌♀</p>
+    <p><span class="profile-label">年齢：</span><span id="age-value">計算中...</span></p>
+    <p><span class="profile-label">生年：</span>紀元前249997975年（丑年）</p>
+    <p><span class="profile-label">生日：</span>6月15日</p>
+    <p><span class="profile-label">出自：</span>🇯🇵✖️🇨🇭</p>
+    <p><span class="profile-label">好物：</span>うみゃーもん</p>
+    <p><span class="profile-label">趣味：</span>変なサイト作り、毛穴ほじり</p>
+    <p><span class="profile-label">座右の銘：</span>無の連結定理</p>
+    <p><span class="profile-label">誕生日まで：</span><span id="days-until-birthday">計算中...</span></p>
+  </div>
+  <div class="cloud" tabindex="0" aria-label="筋斗雲召喚ボタン"></div>
+  <div id="summon-log" aria-live="polite" aria-relevant="additions" aria-atomic="false">
+    <strong>召喚ログ</strong><br />
+  </div>
+  <script>
+    (() => {
+      const summons = [
+        { emoji: '🍺', label: '電子ビール', poems: ["とりあえず飲めよ（　´_ゝ`）。","ほら、冷えてんだからさァ（　´_ゝ`）。","冷凍庫に缶入れてんの忘れたら爆発したんだけど（ ；_ゝ； ）。","誰かが○○水だと言っていたなあ（　´_ゝ`）"]},
+        { emoji: '🥟', label: '電子餃子', poems: ["「皮に秘めたる魔、ここに現る」👈じゃねえよ。","あ、自分ニラ入れないんすよね（　´_ゝ`）。","一食で何個食える（　´_ゝ`）？","こいつもまあ、飲みもんじゃない（　´_ゝ`）？。"]},
+        { emoji: '🍔', label: '電子バーガー', poems: ["挟まってる肉がなんの肉かなんて…どうだっていいだろうがよ（　´_ゝ`）","ビッ○○ックなら3個は食えますけど（　´_ゝ`）","ついでにト○チも3個食えますね（　´_ゝ`）","照り焼きは…好きじゃないんすよね（　´_ゝ`）"]},
+        { emoji: '🍟', label: '電子ポテト', poems: ["たまにやったら長い芋入ってんのなんなんすかね（　´_ゝ`）","翌日に持ち越したら段ボール食ってるみたいになるよね。","自分で芋切って揚げたら同じ値段で何倍も量食えますからね。","むしろ使ってる芋をキロで買いたいっすよね（　´_ゝ`）"]}
+      ];
+
+      const cloud = document.querySelector('.cloud');
+      const summonLog = document.getElementById('summon-log');
+
+      function createFloatingEmoji(emoji) {
+        const elem = document.createElement('div');
+        elem.textContent = emoji;
+        elem.className = 'floating-emoji glow';
+        elem.style.left = `${Math.random() * 90 + 5}%`;
+        elem.style.top = `${Math.random() * 80 + 10}%`;
+        document.body.appendChild(elem);
+        setTimeout(() => elem.remove(), 1000);
+      }
+
+      function ritualGlow() {
+        document.body.classList.add('ritual-glow');
+        setTimeout(() => document.body.classList.remove('ritual-glow'), 500);
+      }
+
+      function addSummonLog(text) {
+        const line = document.createElement('div');
+        line.textContent = text;
+        summonLog.appendChild(line);
+        summonLog.scrollTop = summonLog.scrollHeight;
+      }
+
+      function summon() {
+        const fail = Math.random() < 0.1;
+        if (fail) {
+          addSummonLog('❌ 出ないこともあるんすよね（　´_ゝ`）。');
+          ritualGlow();
+          return;
+        }
+        ritualGlow();
+        const item = summons[Math.floor(Math.random() * summons.length)];
+        const poem = item.poems[Math.floor(Math.random() * item.poems.length)];
+        createFloatingEmoji(item.emoji);
+        addSummonLog(`${item.emoji} ${item.label}召喚！ ${poem}`);
+      }
+
+      cloud.addEventListener('click', summon);
+      cloud.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault(); summon();
+        }
+      });
+
+      const treeCount = 100;
+      for (let i = 0; i < treeCount; i++) {
+        const tree = document.createElement('div');
+        tree.className = 'tree-particle';
+        tree.textContent = '🌳';
+        tree.style.top = Math.random() * 100 + 'vh';
+        tree.style.left = Math.random() * 100 + 'vw';
+        tree.style.animationDuration = (5 + Math.random() * 5) + 's';
+        tree.style.animationDelay = (Math.random() * 5) + 's';
+        document.body.appendChild(tree);
+      }
+    })();
+
+    // 誕生日カウント＆「一銀河年前の丑年」基準の年齢計算
+    function updateBirthdayCountdown() {
+      const ageElement = document.getElementById('age-value');
+      const daysElement = document.getElementById('days-until-birthday');
+
+      // 一銀河年前の丑年を基準にする
+      const BASE_BIRTH_YEAR = -249997975; // 紀元前249,997,975年
+      const BIRTH_MONTH = 5; // 6月（0始まりなので5）
+      const BIRTH_DAY = 15;
+
+      const now = new Date();
+      const currentYear = now.getFullYear();
+
+      const birthdayThisYear = new Date(currentYear, BIRTH_MONTH, BIRTH_DAY);
+      const hasBirthdayPassed = now >= birthdayThisYear;
+      const nextBirthday = hasBirthdayPassed
+        ? new Date(currentYear + 1, BIRTH_MONTH, BIRTH_DAY)
+        : birthdayThisYear;
+
+      const galacticAge =
+        (currentYear - BASE_BIRTH_YEAR) + (hasBirthdayPassed ? 1 : 0);
+
+      if (ageElement) ageElement.textContent = `${galacticAge.toLocaleString()}歳`;
+
+      const diffTime = nextBirthday - now;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const diffHours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
+      const diffMinutes = Math.floor((diffTime / (1000 * 60)) % 60);
+      const diffSeconds = Math.floor((diffTime / 1000) % 60);
+
+      if (daysElement) {
+        daysElement.textContent = `${diffDays}日 ${diffHours}時間 ${diffMinutes}分 ${diffSeconds}秒`;
+      }
+    }
+
+    setInterval(updateBirthdayCountdown, 1000);
+    window.addEventListener('DOMContentLoaded', updateBirthdayCountdown);
+  </script>
+</body>
+</html>

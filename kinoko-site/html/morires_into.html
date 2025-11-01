@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>魂の準備ページ</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #fefefe;
+      font-family: 'Yu Gothic', 'Meiryo', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+    .question {
+      margin-bottom: 1.5rem;
+    }
+    .question p {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input[type="radio"] {
+      margin-right: 0.5rem;
+    }
+    button {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem;
+      background: #ffcc00;
+      color: #000;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>魂の準備ページ</h1>
+  <form id="soulForm">
+    <div class="question">
+      <p>Q1. 世界がもし1秒で終わるなら、何をする？</p>
+      <label><input type="radio" name="q1" value="a">叫ぶ</label><br>
+      <label><input type="radio" name="q1" value="b">踊る</label><br>
+      <label><input type="radio" name="q1" value="c">見届ける</label>
+    </div>
+
+    <div class="question">
+      <p>Q2. 朝目覚めたら別の惑星にいた。どうする？</p>
+      <label><input type="radio" name="q2" value="a">探索する</label><br>
+      <label><input type="radio" name="q2" value="b">瞑想する</label><br>
+      <label><input type="radio" name="q2" value="c">寝直す</label>
+    </div>
+
+    <!-- 追加の28問はここに増やしていく -->
+
+    <button type="button" onclick="checkAnswers()">魂チェック完了</button>
+  </form>
+
+  <script>
+    const correctAnswers = {
+      q1: 'c',
+      q2: 'b'
+      // 今後は日替わりなどで動的変更可能
+    };
+
+    function checkAnswers() {
+      let score = 0;
+      let total = Object.keys(correctAnswers).length;
+      for (let key in correctAnswers) {
+        const selected = document.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.value === correctAnswers[key]) {
+          score++;
+        }
+      }
+      if (score === total) {
+        window.location.href = "mori_sushi.html"; // 寿司召喚ページへ
+      } else {
+        alert("ぶぶ漬けだけ食べて帰ってください（　´_ゝ`）");
+        window.location.href = "bubuzuke.html"; // 退散ページ
+      }
+    }
+  </script>
+</body>
+</html>
