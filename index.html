@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍄合同会社 菌糸™</title>
+<style>
+body {
+  background-color: #030e05;
+  color: #ddd;
+  font-family: "MS Gothic", monospace;
+  text-align: center;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* 星雲＋胞子の層 */
+#mycelium {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(0,255,128,0.15) 0%, transparent 70%);
+  animation: spores 5s infinite ease-in-out alternate;
+}
+
+@keyframes spores {
+  from { transform: scale(1); opacity: 0.3; filter: blur(2px); }
+  to { transform: scale(1.25); opacity: 0.8; filter: blur(4px); }
+}
+
+#spores {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* タイトル */
+h1 {
+  margin-top: 80px;
+  font-size: 2.2em;
+  letter-spacing: 0.05em;
+}
+
+/* サブタイトル */
+.tagline {
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+/* 流れるメッセージ */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 40px;
+}
+
+.marquee p {
+  display: inline-block;
+  font-size: 0.9em;
+  animation: scrollText 25s linear infinite;
+  color: #aaffaa;
+}
+
+@keyframes scrollText {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+/* ボタン部分 */
+.buttons {
+  margin: 30px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+button {
+  background: linear-gradient(45deg,
+    #ffe1ff, #e0ffff, #fff7d1, #e0ffe1, #ffe1ff);
+  color: #030e05;
+  border: none;
+  padding: 18px 50px;
+  font-size: 1.2em;
+  font-family: "MS Gothic", monospace;
+  border-radius: 50px; /* 楕円形 */
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(150,255,200,0.3);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,255,255,0.4);
+}
+
+/* リンク部分 */
+a {
+  display: block;
+  color: #aaffaa;
+  text-decoration: none;
+  margin: 12px;
+  font-size: 1em;
+}
+
+a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 5px #baffff;
+}
+
+/* 菌糸伸長メッセージ */
+#growMsg {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  font-size: 0.9em;
+  color: #aaffaa;
+}
+</style>
+</head>
+<body>
+<canvas id="spores"></canvas>
+<div id="mycelium"></div>
+
+<h1>🍄 合同会社 菌糸™</h1>
+<p class="tagline">—— 非定型知能による、非定型知能のための小宇宙 ——</p>
+
+<div class="marquee">
+  <p>🍄定型型知能の人々ももちろん歓迎するんだえ( ´_ゝ｀)🍄</p>
+</div>
+
+<div class="buttons">
+  <button>🍄 はじまる</button>
+  <button>🍄 よむ</button>
+  <button>🍄 みる</button>
+</div>
+
+<a href="#">🗂 標本棚（Archive）</a>
+<a href="#">👤 管理人のあいさつ</a>
+
+<div id="growMsg">……菌糸が伸びている（；´_ゝ`）</div>
+
+<script>
+const canvas = document.getElementById("spores");
+const ctx = canvas.getContext("2d");
+let w, h, spores = [];
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  spores = Array.from({length: 200}, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 2,
+    o: Math.random(),
+    s: Math.random() * 0.5 + 0.2,
+    z: Math.random() * 2
+  }));
+}
+
+function draw() {
+  ctx.clearRect(0, 0, w, h);
+  spores.forEach(s => {
+    s.x += Math.sin(Date.now() * 0.0001 + s.y) * 0.1 * s.z;
+    s.y += Math.cos(Date.now() * 0.00005 + s.x) * 0.1 * s.z;
+    if (s.x < 0) s.x = w;
+    if (s.x > w) s.x = 0;
+    if (s.y < 0) s.y = h;
+    if (s.y > h) s.y = 0;
+
+    s.o += (Math.random() - 0.5) * 0.05;
+    s.o = Math.max(0.1, Math.min(1, s.o));
+
+    const hue = (s.x / w) * 360;
+    ctx.beginPath();
+    ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${s.o})`;
+    ctx.arc(s.x, s.y, s.r * s.z, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize", resize);
+resize();
+draw();
+
+// パララックス効果
+document.addEventListener("mousemove", (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 2;
+  const y = (e.clientY / window.innerHeight - 0.5) * 2;
+  canvas.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+});
+
+// アイドルメッセージ
+let idleTimer;
+const growMsg = document.getElementById("growMsg");
+
+function showGrowMsg() {
+  growMsg.style.opacity = 1;
+}
+function resetIdleTimer() {
+  growMsg.style.opacity = 0;
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(showGrowMsg, 30000);
+}
+window.onload = resetIdleTimer;
+document.onmousemove = resetIdleTimer;
+document.onkeydown = resetIdleTimer;
+</script>
+</body>
+</html>
