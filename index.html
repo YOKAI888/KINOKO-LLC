@@ -6,15 +6,16 @@
 <title>🍄合同会社 菌糸™</title>
 <style>
 body {
-  background-color: #030e05;
-  color: #ddd;
+  background-color: #0b0015;
+  color: #fff;
   font-family: "MS Gothic", monospace;
   text-align: center;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-/* 星雲＋胞子の層 */
+/* ====== 🌌 背景：星屑＋胞子 ====== */
 #mycelium {
   position: fixed;
   top: 0;
@@ -22,16 +23,16 @@ body {
   width: 100%;
   height: 100%;
   z-index: -2;
-  pointer-events: none;
-  background: radial-gradient(circle at center, rgba(0,255,128,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(255,192,255,0.25) 0%, transparent 70%);
   animation: spores 5s infinite ease-in-out alternate;
+  filter: blur(2px);
 }
-
 @keyframes spores {
-  from { transform: scale(1); opacity: 0.3; filter: blur(2px); }
-  to { transform: scale(1.25); opacity: 0.8; filter: blur(4px); }
+  from { transform: scale(1); opacity: 0.4; }
+  to { transform: scale(1.25); opacity: 0.8; }
 }
 
+/* 星屑エフェクト */
 #spores {
   position: fixed;
   top: 0;
@@ -42,84 +43,113 @@ body {
   pointer-events: none;
 }
 
-/* タイトル */
+/* ====== 🍄 タイトル・リボン ====== */
 h1 {
   margin-top: 80px;
-  font-size: 2.2em;
+  font-size: 2.4em;
   letter-spacing: 0.05em;
+  text-shadow: 0 0 10px #ffc0ff, 0 0 20px #ffe0ff;
 }
 
-/* サブタイトル */
 .tagline {
   font-size: 1em;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  color: #ffeaff;
 }
 
-/* 流れるメッセージ */
+/* ====== 🌈 流れるメッセージ ====== */
 .marquee {
   position: relative;
   overflow: hidden;
   white-space: nowrap;
   margin-bottom: 40px;
 }
-
 .marquee p {
   display: inline-block;
-  font-size: 0.9em;
   animation: scrollText 25s linear infinite;
-  color: #aaffaa;
+  color: #ffccff;
 }
-
 @keyframes scrollText {
   from { transform: translateX(100%); }
   to { transform: translateX(-100%); }
 }
 
-/* ボタン部分 */
+/* ====== 🍬 ボタン ====== */
 .buttons {
-  margin: 30px auto;
+  margin: 40px auto;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
 }
-
 button {
-  background: linear-gradient(45deg,
-    #ffe1ff, #e0ffff, #fff7d1, #e0ffe1, #ffe1ff);
-  color: #030e05;
+  background: linear-gradient(45deg, #ffd6ff, #eaffff, #fff2e0, #ffe1ff);
+  color: #2a0033;
   border: none;
   padding: 18px 50px;
   font-size: 1.2em;
   font-family: "MS Gothic", monospace;
-  border-radius: 50px; /* 楕円形 */
+  border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(150,255,200,0.3);
+  box-shadow: 0 0 20px rgba(255,200,255,0.4);
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
-
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255,255,255,0.4);
+  transform: scale(1.07);
+  box-shadow: 0 0 30px rgba(255,255,255,0.7);
 }
 
-/* リンク部分 */
+/* ====== 💫 リンク ====== */
 a {
   display: block;
-  color: #aaffaa;
+  color: #ffccff;
   text-decoration: none;
   margin: 12px;
   font-size: 1em;
 }
-
 a:hover {
   color: #ffffff;
-  text-shadow: 0 0 5px #baffff;
+  text-shadow: 0 0 5px #ffe6ff;
 }
 
-/* 菌糸伸長メッセージ */
+/* ====== 🍄 noteエリア ====== */
+#note-box {
+  width: 70%;
+  margin: 60px auto;
+  background: rgba(255,255,255,0.9);
+  border: 3px double #ff99cc;
+  color: #000;
+  font-family: "MS PGothic", monospace;
+  text-align: left;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255,150,255,0.4);
+}
+#note-box h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: #ffe6f9;
+  border: 1px solid #ff99cc;
+  padding: 5px;
+  border-radius: 10px;
+}
+.note-item {
+  border-bottom: 1px dashed #ffbbee;
+  padding: 8px 0;
+}
+.note-item:last-child {
+  border-bottom: none;
+}
+.note-item a {
+  color: #c000a0;
+  text-decoration: underline;
+}
+.note-item a:hover {
+  color: #ff0088;
+}
+
+/* ====== 🍄 菌糸メッセージ ====== */
 #growMsg {
   position: fixed;
   bottom: 10px;
@@ -128,7 +158,20 @@ a:hover {
   opacity: 0;
   transition: opacity 1s ease;
   font-size: 0.9em;
-  color: #aaffaa;
+  color: #ffccff;
+}
+
+/* ====== ✨ きらめき ====== */
+@keyframes twinkle {
+  0%,100% {opacity: 0.6;}
+  50% {opacity: 1;}
+}
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: twinkle 3s infinite ease-in-out;
 }
 </style>
 </head>
@@ -136,11 +179,11 @@ a:hover {
 <canvas id="spores"></canvas>
 <div id="mycelium"></div>
 
-<h1>🍄 合同会社 菌糸™</h1>
-<p class="tagline">—— 非定型知能による、非定型知能のための小宇宙 ——</p>
+<h1>🍄 合同会社 菌糸™ 🍄</h1>
+<p class="tagline">💫 非定型知能による、非定型知能のための小宇宙 💫</p>
 
 <div class="marquee">
-  <p>🍄定型型知能の人々ももちろん歓迎するんだえ( ´_ゝ｀)🍄</p>
+  <p>🍄定型知能の方もごきげんよう（　´_ゝ`）🍄</p>
 </div>
 
 <div class="buttons">
@@ -152,9 +195,22 @@ a:hover {
 <a href="#">🗂 標本棚（Archive）</a>
 <a href="#">👤 管理人のあいさつ</a>
 
-<div id="growMsg">……菌糸が伸びている（；´_ゝ`）</div>
+<!-- noteエリア -->
+<div id="note-box">
+  <h2>🍄 最新記事（note） 🍄</h2>
+  <div id="note-feed">
+    <div class="note-item"><a href="#">夢かわ胞子論入門</a><br><span style="font-size:12px;color:#555;">2025/11/01</span></div>
+    <div class="note-item"><a href="#">阿部寛構文の宇宙的意義</a><br><span style="font-size:12px;color:#555;">2025/10/30</span></div>
+    <div class="note-item"><a href="#">霊的スクロールバーの物理</a><br><span style="font-size:12px;color:#555;">2025/10/28</span></div>
+    <div class="note-item"><a href="#">ピンクの胞子が落ちる夜</a><br><span style="font-size:12px;color:#555;">2025/10/25</span></div>
+    <div class="note-item"><a href="#">合同会社 菌糸™ 創設記</a><br><span style="font-size:12px;color:#555;">2025/10/21</span></div>
+  </div>
+</div>
+
+<div id="growMsg">……胞子がふわふわ舞っている（；´_ゝ`）</div>
 
 <script>
+/* ===== 背景胞子Canvas ===== */
 const canvas = document.getElementById("spores");
 const ctx = canvas.getContext("2d");
 let w, h, spores = [];
@@ -162,56 +218,49 @@ let w, h, spores = [];
 function resize() {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
-  spores = Array.from({length: 200}, () => ({
+  spores = Array.from({length: 250}, () => ({
     x: Math.random() * w,
     y: Math.random() * h,
-    r: Math.random() * 2,
+    r: Math.random() * 2 + 1,
     o: Math.random(),
     s: Math.random() * 0.5 + 0.2,
     z: Math.random() * 2
   }));
 }
-
 function draw() {
   ctx.clearRect(0, 0, w, h);
   spores.forEach(s => {
-    s.x += Math.sin(Date.now() * 0.0001 + s.y) * 0.1 * s.z;
-    s.y += Math.cos(Date.now() * 0.00005 + s.x) * 0.1 * s.z;
+    s.x += Math.sin(Date.now() * 0.0001 + s.y) * 0.2 * s.z;
+    s.y += Math.cos(Date.now() * 0.00005 + s.x) * 0.2 * s.z;
     if (s.x < 0) s.x = w;
     if (s.x > w) s.x = 0;
     if (s.y < 0) s.y = h;
     if (s.y > h) s.y = 0;
-
     s.o += (Math.random() - 0.5) * 0.05;
     s.o = Math.max(0.1, Math.min(1, s.o));
-
     const hue = (s.x / w) * 360;
     ctx.beginPath();
-    ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${s.o})`;
+    ctx.fillStyle = `hsla(${hue}, 80%, 80%, ${s.o})`;
     ctx.arc(s.x, s.y, s.r * s.z, 0, Math.PI * 2);
     ctx.fill();
   });
   requestAnimationFrame(draw);
 }
-
 window.addEventListener("resize", resize);
 resize();
 draw();
 
-// パララックス効果
+/* ===== マウスでパララックス ===== */
 document.addEventListener("mousemove", (e) => {
   const x = (e.clientX / window.innerWidth - 0.5) * 2;
   const y = (e.clientY / window.innerHeight - 0.5) * 2;
   canvas.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
 });
 
-// アイドルメッセージ
+/* ===== アイドルメッセージ ===== */
 let idleTimer;
 const growMsg = document.getElementById("growMsg");
-
-function showGrowMsg() {
-  growMsg.style.opacity = 1;
-}
+function showGrowMsg() { growMsg.style.opacity = 1; }
 function resetIdleTimer() {
   growMsg.style.opacity = 0;
   clearTimeout(idleTimer);
@@ -220,6 +269,17 @@ function resetIdleTimer() {
 window.onload = resetIdleTimer;
 document.onmousemove = resetIdleTimer;
 document.onkeydown = resetIdleTimer;
+
+/* ===== 星屑ランダム追加 ===== */
+for (let i = 0; i < 50; i++) {
+  const star = document.createElement("div");
+  star.classList.add("star");
+  star.style.width = star.style.height = Math.random() * 3 + "px";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.animationDuration = 2 + Math.random() * 3 + "s";
+  document.body.appendChild(star);
+}
 </script>
 </body>
 </html>
